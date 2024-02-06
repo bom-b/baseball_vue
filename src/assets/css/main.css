@@ -1,0 +1,45 @@
+/* 1. 기본적으로 margin과 padding을 제거합니다. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. body에 기본 배경색과 텍스트 색상을 설정합니다. */
+body{
+  background: #f7f8f8;
+  color: black;
+  line-height: 1.6;
+}
+
+#app {
+  background: #f7f8f8;
+}
+
+/* 3. 모든 이미지에 대해 max-width를 100%로 설정하여 이미지가 컨테이너를 벗어나지 않게 합니다. */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 4. 텍스트 크기의 일관성을 위해 모든 요소에 상속된 'font-size'를 설정합니다. */
+html {
+  font-size: 100%;
+}
+
+/* 5. 표의 가장자리와 간격을 0으로 설정합니다. */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 6. 목록 스타일을 제거합니다. */
+ul {
+  list-style: none;
+}
+
+/* 7. 링크에 기본 색상을 설정합니다. */
+a {
+  color: inherit;
+  text-decoration: none;
+}
