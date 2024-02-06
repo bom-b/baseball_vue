@@ -55,7 +55,8 @@
   align-items: center;
   margin-bottom: 10vh;
   background: #ffffff;
-  padding: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   width: 800px;
   border-radius: 10px;
 
@@ -71,11 +72,18 @@
   margin: 10px;
 }
 
+img {
+  margin-top: 0 !important;
+}
+
 
 @media (max-width: 768px) {
   .title-box {
+    margin-top: 5vh;
+
     #title1 {
-      font-size: 3rem;
+      font-size: 2rem;
+      margin-bottom: 0;
     }
 
     #title2 {
@@ -83,7 +91,7 @@
     }
 
     #baseball {
-      width: 200px;
+      width: 170px;
     }
   }
 
