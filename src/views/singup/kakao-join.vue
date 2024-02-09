@@ -30,7 +30,6 @@ export default {
       const self = this;
       self.$axiosWithoutValidation.get('/kakao/kakaoLogin/' + self.code)
           .then((response) => {
-            /*넘어온 데이터*/
              this.json = response.data;
           })
           .catch(() => {
