@@ -1,14 +1,16 @@
 <template>
   <div class="wrapper">
     <div class="title-box">
-      <p id="title1" class="TheJamsil400 redWine">온라인</p>
-      <p id="title2" class="TheJamsil700">숫자야구</p>
-      <img id="baseball" class="mt-3" src="../assets/img/icon/7ball.png" alt="">
+      <p id="title1" class="TheJamsil400 redWine" data-aos="fade-in" data-aos-duration="500" data-aos-delay="0">온라인</p>
+      <p id="title2" class="TheJamsil700" data-aos="fade-in" data-aos-duration="500" data-aos-delay="200">숫자야구</p>
+      <img id="baseball" class="mt-3" src="../assets/img/icon/7ball.png" alt="" data-aos="slide-down" data-aos-duration="500" data-aos-delay="300">
     </div>
     <div class="btn-box">
       <p id="title3" class="gray">전국의 사람들과 숫자야구를 즐겨보세요!</p>
       <div>
-        <button class="btn-signature">혼자하기</button>
+        <router-link to="/singlePlay">
+          <button class="btn-signature">혼자하기</button>
+        </router-link>
         <button class="btn-signature">같이하기</button>
       </div>
       <a class="mt-4">게임방법 알아보기</a>
@@ -19,6 +21,10 @@
 
 </script>
 <style scoped>
+* {
+  user-select: none;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;

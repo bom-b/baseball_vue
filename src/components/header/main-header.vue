@@ -5,14 +5,14 @@
 
       </div>
       <div id="user-info-box">
-        <img id="kakao" class="mt-3" src="../../assets/img/btn/kakao_login_medium.png" alt="">
+        <img @click="kakaoLogin" id="kakao" class="mt-3" src="../../assets/img/btn/kakao_login_medium.png" alt="">
       </div>
     </div>
   </nav>
 </template>
 <style scoped>
 nav {
-  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
   width: 1000px;
   background: white;
 }
@@ -31,6 +31,7 @@ img {
 
 #kakao {
   width: 80px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -40,6 +41,22 @@ img {
 }
 
 </style>
-<script setup>
+<script>
+export default {
+  methods: {
+    kakaoLogin() {
+      const REST_API_KEY = '5503b5836935e429191e7c53ce32baa2';
+      const REDIRECT_URI = this.$vueBaseURL + '/singUp/kakaoJoin';
 
+      // 새 창의 크기
+      const width = 500;
+      const height = 800;
+
+      // 새 창의 옵션
+      const windowFeatures = `width=${width},height=${height},resizable=yes,scrollbars=yes,status=yes`;
+      window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`, 'kakaoLogin', windowFeatures;
+
+    }
+  }
+}
 </script>
