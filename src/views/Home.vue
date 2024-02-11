@@ -93,11 +93,11 @@ img {
     }
 
     #title2 {
-      font-size: 5rem;
+      font-size: 4rem;
     }
 
     #baseball {
-      width: 170px;
+      width: 140px;
     }
   }
 

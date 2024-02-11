@@ -5,7 +5,15 @@
 
       </div>
       <div id="user-info-box">
-        <img @click="kakaoLogin" id="kakao" class="mt-3" src="../../assets/img/btn/kakao_login_medium.png" alt="">
+        <div v-if="jwtToken">
+          <router-link to="/user/info" class="no-underline" style="display: flex; align-items: center;">
+            <p class="" style="color: darkslateblue; margin-bottom: 0; margin-right: 5px;">{{userInfo.nickname}}님</p>
+            <img id="thumbnail" class="" :src="userInfo.imgPreview"/>
+          </router-link>
+        </div>
+        <div v-else>
+          <img @click="kakaoLogin" id="kakao" class="mt-3" src="../../assets/img/btn/kakao_login_medium.png" alt="">
+        </div>
       </div>
     </div>
   </nav>
@@ -34,6 +42,14 @@ img {
   cursor: pointer;
 }
 
+#thumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  object-fit: cover; /* 이미지 비율 유지하면서 요소 채우기 */
+}
+
 @media (max-width: 768px) {
   nav {
     width: 100%;
@@ -43,6 +59,25 @@ img {
 </style>
 <script>
 export default {
+  data() {
+    return {
+      jwtToken: null,
+      userInfo: {
+        id: '',
+        nickname: '',
+        imgPreview: '',
+      }
+    }
+  },
+  created() {
+    if(window.localStorage.getItem('jwtToken')) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.jwtToken = window.localStorage.getItem('jwtToken');
+      this.userInfo.id = user.id;
+      this.userInfo.nickname = user.nickname;
+      this.userInfo.imgPreview = this.$s3BaseURL + "/user/profileImg/" + this.userInfo.id;
+    }
+  },
   methods: {
     kakaoLogin() {
       const REST_API_KEY = '5503b5836935e429191e7c53ce32baa2';

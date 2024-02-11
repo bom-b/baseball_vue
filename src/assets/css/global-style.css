@@ -38,6 +38,11 @@
     box-shadow: 0 0 0 0.2rem rgba(138, 43, 62, 0.25) !important; /* #8a2b3e 색상의 네온사인 효과 */
 }
 
+/*링크 밑줄 제거*/
+.no-underline {
+    text-decoration: none;
+}
+
 /*더잠실체*/
 @font-face {
     font-family: 'TheJamsil100';

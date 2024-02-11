@@ -24,7 +24,9 @@ AOS.init();
 
 // 웹사이트 베이스 주소
 app.config.globalProperties.$vueBaseURL = import.meta.env.VITE_VUE_BASE_URL;
-// app.config.globalProperties.$vueBaseURL = 'http://localhost:3000';
+
+// s3 베이스 주소
+app.config.globalProperties.$s3BaseURL = "https://online-baseball.s3.ap-northeast-2.amazonaws.com"
 
 // axios 전역변수 등록. 헤더에 토큰값을 적재하기 위해서 해당 $axios를 사용해야함.
 // axios 요청이 일어날때 토큰의 유효성 검사도 함께 진행.

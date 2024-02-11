@@ -1,5 +1,5 @@
 export default {
-    confirmButtonColor: '#41b882',
-    cancelButtonColor: '#ff7674',
+    confirmButtonColor: '#8a2b3e',
+    cancelButtonColor: '#dadada',
     confirmButtonText: '확인',
 };

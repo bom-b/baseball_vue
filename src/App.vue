@@ -12,7 +12,10 @@ import main_header from '@/components/header/main-header.vue';
 import single_header from '@/components/header/single-header.vue'
 
 export default {
-  components: {},
+  watch: {
+  },
+  methods: {
+  },
   computed: {
     ...mapState(['headerType']),
     headerComponent() {

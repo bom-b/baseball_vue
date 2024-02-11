@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use(
 
         // 토큰 유효성 검사
         try {
-            await axios.get(API_URL + '/checkToken', {
+            await axios.get(API_URL + '/auth/checkToken', {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -31,18 +31,16 @@ axiosInstance.interceptors.request.use(
             });
         } catch (error) {
             swal.fire({
-                text: '로그인 정보가 만료되었습니다. 다시 로그인 해주세요.',
+                text: '로그인 정보가 만료되었습니다.',
                 icon: 'warning',
-                confirmButtonColor: '#41b882',
+                confirmButtonColor: '#8a2b3e',
                 confirmButtonText: '확인'
             })
                 .then(() => {
-                    window.location.href = '/service/login';
+                    window.location.href = '/';
                 });
             window.localStorage.removeItem('jwtToken');
-            window.localStorage.removeItem('role');
-            window.localStorage.removeItem('nickname');
-            window.localStorage.removeItem('name');
+            window.localStorage.removeItem('user');
         }
 
         return config;
