@@ -29,7 +29,7 @@
       </div>
 
     </div>
-<p>{{game.cpuNumber}}</p>
+
     <div class="table-box">
       <table id="historyTable" class="table">
         <thead ref="tableHead" class="table-light">
