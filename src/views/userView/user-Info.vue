@@ -22,7 +22,8 @@
             <p id="img-title" class="TheJamsil400 mt-4" style="">혼자하기 기록</p>
             <div class="img-content">
               <p class="TheJamsil400" style="margin-bottom: 0">클리어 횟수</p>
-              <p v-if="userInfo.bestRecord4 > 0" class="img-sub" style="">{{userInfo.cntRecord4}}회</p>
+              <p v-if="userInfo.cntRecord4 > 0" class="img-sub" style="">{{userInfo.cntRecord4}}회</p>
+              <p v-else class="img-sub" style="">기록없음</p>
               <p class="TheJamsil400 mt-3" style="margin-bottom: 0">최고기록</p>
               <p v-if="userInfo.bestRecord4 > 0" class="img-sub" style="">{{userInfo.bestRecord4}}턴</p>
               <p v-else class="img-sub" style="">기록없음</p>
