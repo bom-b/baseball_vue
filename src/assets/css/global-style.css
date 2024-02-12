@@ -28,6 +28,26 @@
     color: white;
 }
 
+/*시그니처 인풋*/
+.form-control {
+    border: 1px solid #8a2b3e !important; /* 테두리 색상 변경 */
+    outline: none !important; /* 기본 아웃라인 제거 */
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(138, 43, 62, 0.25) !important; /* #8a2b3e 색상의 네온사인 효과 */
+}
+
+/*링크 밑줄 제거*/
+.no-underline {
+    text-decoration: none;
+}
+
+/*swal title 글자크기 조정*/
+.swal2-title {
+    font-size: 1rem !important;
+}
+
 /*더잠실체*/
 @font-face {
     font-family: 'TheJamsil100';
