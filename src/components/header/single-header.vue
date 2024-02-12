@@ -15,6 +15,10 @@
   </nav>
 </template>
 <style scoped>
+* {
+  user-select: none;
+}
+
 nav {
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
   width: 1000px;

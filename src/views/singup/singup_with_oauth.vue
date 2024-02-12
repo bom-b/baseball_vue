@@ -29,7 +29,8 @@
         </div>
       </div>
     </div>
-    <div>
+    <p style="text-align: center; color: gray; font-size: 0.8em; margin-top: 5px; margin-bottom: 0;">부적절한 데이터 추가시 <br/>예고없이 계정이 삭제될 수 있습니다.</p>
+    <div style="padding-bottom: 30px;">
       <button id="submit-btn" class="btn-signature" @click.capture="submitSingUP">가입하기</button>
     </div>
   </div>

@@ -34,7 +34,8 @@ export default {
             if(response.data.isSign === "true") {
               const userInfo = {
                 'id' : response.data.id,
-                'nickname' : response.data.nickname
+                'ac' : response.data.accessToken,
+                // 'nickname' : response.data.nickname,
               }
               window.localStorage.clear();
               window.localStorage.setItem('jwtToken', response.data.token);

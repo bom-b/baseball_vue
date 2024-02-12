@@ -24,13 +24,15 @@
           <div id="file-btn-box" class="col-7">
             <input type="file" ref="fileInput" @change="handleFileUpload" accept="image/*" style="display: none;">
             <a id="changeDefaultImg" @click="changeDefaultImg">기본 이미지로 변경</a>
-            <button class="file-btn mt-3" @click="triggerFileInput">사진 업로드</button>
+            <button class="btn-gray mt-3" @click="triggerFileInput">사진 업로드</button>
           </div>
         </div>
       </div>
     </div>
-    <div>
+    <p style="text-align: center; color: gray; font-size: 0.8em; margin-top: 5px; margin-bottom: 0;">부적절한 데이터 추가시 <br/>예고없이 계정이 삭제될 수 있습니다.</p>
+    <div style="display: flex; flex-direction: column; padding-bottom: 30px;">
       <button id="submit-btn" class="btn-signature" @click.capture="submitUpdate">수정하기</button>
+      <button id="" class="btn-gray mt-3" @click.capture="submitWithdrawal">탈퇴하기</button>
     </div>
   </div>
 </template>
@@ -125,6 +127,7 @@ export default {
         this.image.imgPreview = e.target.result;
       };
       reader.readAsDataURL(this.image.imgFile);
+      this.image.imgChangeDefault = false;
     },
     submitUpdate() {
       if (this.nickname.isOk) {
@@ -145,13 +148,53 @@ export default {
               this.$router.push({path: '/user/info'});
             })
             .catch(error => {
-              this.$swal.fire('', '나중에 다시 시도해주세요.', 'warning');
-              this.$router.push({path: '/'});
+              this.$swal.fire('', '잠시 후 다시 시도해주세요.', 'warning');
+              this.$router.push({path: '/user/update'});
             })
 
       } else {
         this.$swal.fire('', '사용할 수 있는 닉네임을 입력해주세요.');
       }
+    },
+    submitWithdrawal() {
+      this.$swal.fire({
+        title: '정말 탈퇴하시겠습니까?',
+        text: '데이터는 복구할 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true})
+          .then((result) => {
+            if (result.isConfirmed) {
+              // 카카오 정보제공 철회
+              const accessToken = JSON.parse(window.localStorage.getItem("user")).ac;
+              const url = 'https://kapi.kakao.com/v1/user/unlink';
+
+              fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Authorization': 'Bearer ' + accessToken,
+                  'Content-type': 'application/x-www-form-urlencoded'
+                }
+
+              }).then(() => {
+                // 카카오 정보제공 철회 완료 후 DB삭제
+                this.$axios.get("member/withdrawal")
+                    .then(response => { // 탈퇴완료
+                      this.$swal.fire('', '탈퇴처리 되었습니다.', 'success');
+                      window.localStorage.removeItem('jwtToken');
+                      window.localStorage.removeItem('user');
+                      this.$router.push({path: '/'});
+                    })
+                    .catch(error => {
+                      this.$swal.fire('', '잠시 후 다시 시도해주세요.', 'warning');
+                      this.$router.push({path: '/user/update'});
+                    })
+
+              }).catch(() => {
+                this.$swal.fire('', '잠시 후 다시 시도해주세요.', 'warning');
+                this.$router.push({path: '/user/update'});
+              });
+            }
+          })
     },
     getUserInfo() {
       this.$axios.get('/member/getProfileInfo')
@@ -160,7 +203,7 @@ export default {
             this.id = response.data.id;
             this.nickname.origin = response.data.nickname;
             this.nickname.inputBox = response.data.nickname;
-            this.image.imgPreview = this.$s3BaseURL + "/user/profileImg/" + this.id;
+            this.image.imgPreview = this.$s3BaseURL + "/user/profileImg/" + response.data.profileImg;
           })
     },
     changeDefaultImg() {
@@ -231,7 +274,7 @@ export default {
   object-fit: cover; /* 이미지 비율 유지하면서 요소 채우기 */
 }
 
-.file-btn {
+.btn-gray {
   background-color: #e7e7e7;
   color: #8a2b3e;
   border: none;
@@ -242,7 +285,7 @@ export default {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.file-btn:hover {
+.btn-gray:hover {
   background-color: #dedede;
   color: #8a2b3e;
 }

@@ -19,6 +19,10 @@
   </nav>
 </template>
 <style scoped>
+* {
+  user-select: none;
+}
+
 nav {
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
   width: 1000px;
@@ -71,11 +75,8 @@ export default {
   },
   created() {
     if(window.localStorage.getItem('jwtToken')) {
-      const user = JSON.parse(localStorage.getItem("user"));
       this.jwtToken = window.localStorage.getItem('jwtToken');
-      this.userInfo.id = user.id;
-      this.userInfo.nickname = user.nickname;
-      this.userInfo.imgPreview = this.$s3BaseURL + "/user/profileImg/" + this.userInfo.id;
+      this.getUserInfo();
     }
   },
   methods: {
@@ -91,7 +92,16 @@ export default {
       const windowFeatures = `width=${width},height=${height},resizable=yes,scrollbars=yes,status=yes`;
       window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`, 'kakaoLogin', windowFeatures;
 
-    }
+    },
+    getUserInfo() {
+      this.$axios.get('/member/getProfileInfo')
+          // 토큰을 통해 사용자의 정보를 받아오기
+          .then((response) => {
+            this.userInfo.id = response.data.id;
+            this.userInfo.nickname = response.data.nickname;
+            this.userInfo.imgPreview = this.$s3BaseURL + "/user/profileImg/" + response.data.profileImg;
+          })
+    },
   }
 }
 </script>

@@ -19,18 +19,23 @@
               </p>
               <p class="img-sub" style="color: darkred">승률 {{userInfo.winningPer}}%</p>
             </div>
-            <p id="img-title" class="TheJamsil400 mt-4" style="">혼자하기 최고기록</p>
+            <p id="img-title" class="TheJamsil400 mt-4" style="">혼자하기 기록</p>
             <div class="img-content">
-              <p class="img-sub" style="">{{userInfo.bestRecord4}}턴</p>
+              <p class="TheJamsil400" style="margin-bottom: 0">클리어 횟수</p>
+              <p v-if="userInfo.bestRecord4 > 0" class="img-sub" style="">{{userInfo.cntRecord4}}회</p>
+              <p class="TheJamsil400 mt-3" style="margin-bottom: 0">최고기록</p>
+              <p v-if="userInfo.bestRecord4 > 0" class="img-sub" style="">{{userInfo.bestRecord4}}턴</p>
+              <p v-else class="img-sub" style="">기록없음</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div>
+    <div style="display: flex; flex-direction: column; padding-bottom: 30px;">
       <router-link to="/user/update">
         <button id="submit-btn" class="btn-signature">프로필 수정하기</button>
       </router-link>
+      <button id="" class="btn-gray mt-3" @click.capture="logout">로그아웃</button>
     </div>
   </div>
 </template>
@@ -46,7 +51,8 @@ export default {
         win: 0,
         lose: 0,
         winningPer: 0,
-        bestRecord4: 100,
+        cntRecord4: 0,
+        bestRecord4: 0,
       }
     }
   },
@@ -60,12 +66,23 @@ export default {
           .then((response) => {
             this.userInfo.id = response.data.id;
             this.userInfo.nickname = response.data.nickname;
-            this.userInfo.profileImgUrl = this.$s3BaseURL + "/user/profileImg/" + this.userInfo.id;
+            this.userInfo.profileImgUrl = this.$s3BaseURL + "/user/profileImg/" + response.data.profileImg;
             this.userInfo.total = response.data.total;
             this.userInfo.win = response.data.win;
             this.userInfo.lose = response.data.lose;
+            if (this.userInfo.total == 0) {
+              this.userInfo.winningPer = 0;
+            } else {
+              this.userInfo.winningPer = Math.floor(100*(this.userInfo.win / this.userInfo.total));
+            }
+            this.userInfo.cntRecord4 = response.data.cntRecord4;
             this.userInfo.bestRecord4 = response.data.bestRecord4;
           })
+    },
+    logout() {
+      window.localStorage.removeItem('jwtToken');
+      window.localStorage.removeItem('user');
+      this.$router.push("/");
     }
   }
 }
@@ -139,7 +156,7 @@ export default {
   object-fit: cover; /* 이미지 비율 유지하면서 요소 채우기 */
 }
 
-.file-btn {
+.btn-gray {
   background-color: #e7e7e7;
   color: #8a2b3e;
   border: none;
@@ -150,7 +167,7 @@ export default {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.file-btn:hover {
+.btn-gray:hover {
   background-color: #dedede;
   color: #8a2b3e;
 }

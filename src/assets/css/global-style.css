@@ -43,6 +43,11 @@
     text-decoration: none;
 }
 
+/*swal title 글자크기 조정*/
+.swal2-title {
+    font-size: 1rem !important;
+}
+
 /*더잠실체*/
 @font-face {
     font-family: 'TheJamsil100';

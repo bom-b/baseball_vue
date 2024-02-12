@@ -29,13 +29,17 @@
       </div>
 
     </div>
-
+<p>{{game.cpuNumber}}</p>
     <div class="table-box">
       <table id="historyTable" class="table">
         <thead ref="tableHead" class="table-light">
         <tr>
           <th class="table-title">
-            <span style="color:gray;">UNKOWN PLAYER </span>
+            <span v-if="player.id" style="color:#626262;">
+              <img id="thumbnail" :src="player.profileImgUrl">
+              {{player.nickname}}님
+            </span>
+            <span v-else style="color:gray;">UNKOWN PLAYER </span>
             <span> ({{ game.numberHistory.length }}회차)</span>
           </th>
         </tr>
@@ -77,6 +81,11 @@ export default {
       isGameEnded: false, // true = 게임 끝
       allDisable: false, // true = 모든 버튼 조작 불가
       tableHeight: 0, // 동적으로 바뀌는 기록 테이블 높이
+      player: {
+        id: '',
+        nickname: '',
+        profileImgUrl: '',
+      },
       modal: {
         showModal: true,
         isProgressModal: false,
@@ -112,11 +121,20 @@ export default {
     this.allDisable = true;
     this.game.cpuNumber = this.generateFourDigits();
     this.modal.title = "숫자를 골랐어요!";
-    this.modal.text = "제가 생각한 숫자를 맞춰보세요😊";
+    if(this.player.id) {
+      this.modal.text = "제가 생각한 숫자를 맞춰보세요😊";
+    } else {
+      this.modal.text = "제가 생각한 숫자를 맞춰보세요😊<br/>게임을 기록하시려면 로그인 해주세요.";
+    }
     this.modal.progressMax = 40;
     this.showProgressModal();
 
-    //테이블 높이 설정
+    // 로컬스토리지에 토큰이 있다면 유저 정보 가져오기
+    if(window.localStorage.getItem("jwtToken")) {
+      this.getUserInfo();
+    }
+
+    // 경기 기록 테이블 높이 설정
     this.$nextTick(() => {
       window.addEventListener('resize', this.calculateTableHeight);
     });
@@ -154,10 +172,6 @@ export default {
         this.modal.progress += 1;
         if (this.modal.progress === this.modal.progressMax) {
           clearInterval(this.modal.interval);
-          this.modal.showModal = false;
-          this.modal.isProgressModal = false;
-          this.allDisable = false;
-          this.modal.progress = 0;
           this.$router.push('/'); // 홈으로 이동
         }
       }, 100);
@@ -169,12 +183,19 @@ export default {
         this.allDisable = true; // 버튼 조작 금지
         this.modal.showModal = true;
         this.modal.isResultModal = true;
+        if(this.player.id) { // 로그인 되어있을 경우 경기 기록
+          this.recordResult();
+        }
 
         setTimeout(() => {
           this.modal.showModal = false;
           this.modal.isResultModal = false;
           this.modal.title = "제가 생각한 숫자를 <br/>맞추셨어요🎉";
-          this.modal.text = this.game.numberHistory.length + "번만에 맞추신걸 기록해드릴게요!<br/>잠시 후, 홈으로 이동합니다";
+          if(this.player.id) {
+            this.modal.text = this.game.numberHistory.length + "번만에 맞추신걸 기록해드릴게요!<br/>잠시 후, 홈으로 이동합니다";
+          } else {
+            this.modal.text = this.game.numberHistory.length + "번만에 맞추셨어요!<br/>기록하시려면 로그인이 필요해요.";
+          }
           this.modal.progressMax = 60;
           this.showFinallyModal()
         }, 3000);
@@ -236,6 +257,22 @@ export default {
       }
 
       return {strike, ball};
+    },
+    getUserInfo() {
+      this.$axiosWithoutValidation.get("/auth/checkToken")
+          .then((response) => {
+            this.player.id = response.data.id;
+            this.player.nickname = response.data.nickname;
+            this.player.profileImgUrl = this.$s3BaseURL + "/user/profileImg/" + response.data.profileImg;
+          })
+    },
+    recordResult() {
+      this.$axios.post("singleGame/record", this.game.numberHistory.length)
+          .then(result => {
+          })
+          .catch(error => {
+            this.$swal.fire("", "기록에 실패하였습니다.")
+          })
     }
   }
 }
@@ -381,6 +418,15 @@ progress {
   }
 }
 
+#thumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  object-fit: cover; /* 이미지 비율 유지하면서 요소 채우기 */
+  margin-right: 5px;
+}
+
 @media (max-width: 768px) {
   #historyTable {
     width: 70vw;
@@ -408,6 +454,11 @@ progress {
     #arrow {
       margin: 0 30px;
     }
+  }
+
+  #thumbnail {
+    width: 25px;
+    height: 25px;
   }
 }
 </style>
