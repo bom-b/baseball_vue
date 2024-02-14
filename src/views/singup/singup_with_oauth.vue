@@ -136,12 +136,10 @@ export default {
                 this.$router.push({path: '/singUp/success'});
               })
               .catch(error => {
-                this.$swal.fire('', '나중에 다시 시도해주세요.', 'warning');
-                this.$router.push({path: '/'});
+                this.$swal.fire('', '5MB이하인 이미지만 사용할 수 있습니다.', 'warning');
               })
         } else {
           this.$swal.fire('', '올바르지 않은 요청입니다.', 'warning');
-          this.$router.push({path: '/'});
         }
       } else {
         this.$swal.fire('', '사용할 수 있는 닉네임을 입력해주세요.',);
