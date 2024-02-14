@@ -118,6 +118,16 @@ export default {
     }
   },
   mounted() {
+    // 로컬스토리지에 토큰이 있다면 유저 정보 가져오기
+    if(window.localStorage.getItem("jwtToken")) {
+      this.getUserInfo();
+    }
+
+    // 경기 기록 테이블 높이 설정
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.calculateTableHeight);
+    });
+
     this.allDisable = true;
     this.game.cpuNumber = this.generateFourDigits();
     this.modal.title = "숫자를 골랐어요!";
@@ -128,16 +138,6 @@ export default {
     }
     this.modal.progressMax = 40;
     this.showProgressModal();
-
-    // 로컬스토리지에 토큰이 있다면 유저 정보 가져오기
-    if(window.localStorage.getItem("jwtToken")) {
-      this.getUserInfo();
-    }
-
-    // 경기 기록 테이블 높이 설정
-    this.$nextTick(() => {
-      window.addEventListener('resize', this.calculateTableHeight);
-    });
   },
   beforeDestroy() {
     //테이블 높이 설정
