@@ -131,7 +131,7 @@ export default {
     this.allDisable = true;
     this.game.cpuNumber = this.generateFourDigits();
     this.modal.title = "숫자를 골랐어요!";
-    if(this.player.id) {
+    if(window.localStorage.getItem("jwtToken")) {
       this.modal.text = "제가 생각한 숫자를 맞춰보세요😊";
     } else {
       this.modal.text = "제가 생각한 숫자를 맞춰보세요😊<br/>게임을 기록하시려면 로그인 해주세요.";
