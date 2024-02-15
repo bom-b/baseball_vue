@@ -11,14 +11,20 @@
         <router-link to="/singlePlay">
           <button class="btn-signature">혼자하기</button>
         </router-link>
-        <button class="btn-signature">같이하기</button>
+        <button class="btn-signature" @click="pleaseWait">같이하기</button>
       </div>
-      <a class="mt-4">게임방법 알아보기</a>
+      <a class="mt-4" @click="pleaseWait">게임방법 알아보기</a>
     </div>
   </div>
 </template>
 <script>
-
+export default {
+  methods: {
+    pleaseWait() {
+     this.$swal.fire("","개발중이니 잠시만 기다려주세요!");
+    }
+  }
+}
 </script>
 <style scoped>
 * {
