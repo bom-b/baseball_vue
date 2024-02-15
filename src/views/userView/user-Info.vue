@@ -46,7 +46,7 @@ export default {
     return {
       userInfo: {
         id: '',
-        nickname: '',
+        nickname: 'Unknown',
         profileImgUrl: '',
         total: 0,
         win: 0,

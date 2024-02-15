@@ -7,8 +7,11 @@
       <div id="user-info-box">
         <div v-if="jwtToken">
           <router-link to="/user/info" class="no-underline" style="display: flex; align-items: center;">
-            <p class="" style="color: darkslateblue; margin-bottom: 0; margin-right: 5px;">{{userInfo.nickname}}님</p>
-            <img id="thumbnail" class="" :src="userInfo.imgPreview"/>
+            <p class="" style="color: darkslateblue; margin-bottom: 0; margin-right: 5px;">{{ userInfo.nickname }}님</p>
+            <img id="thumbnail" class="" :src="userInfo.imgPreview"
+                 v-on:load="imageLoaded = true"
+                 :style="{opacity: imageLoaded ? 1 : 0}">
+            <div v-if="!imageLoaded" id="fakeThumbnail"></div>
           </router-link>
         </div>
         <div v-else>
@@ -54,6 +57,13 @@ img {
   object-fit: cover; /* 이미지 비율 유지하면서 요소 채우기 */
 }
 
+#fakeThumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: gray;
+}
+
 @media (max-width: 768px) {
   nav {
     width: 100%;
@@ -66,15 +76,16 @@ export default {
   data() {
     return {
       jwtToken: null,
+      imageLoaded: false,
       userInfo: {
         id: '',
-        nickname: '',
+        nickname: 'Unknown',
         imgPreview: '',
       }
     }
   },
   created() {
-    if(window.localStorage.getItem('jwtToken')) {
+    if (window.localStorage.getItem('jwtToken')) {
       this.jwtToken = window.localStorage.getItem('jwtToken');
       this.getUserInfo();
     }
