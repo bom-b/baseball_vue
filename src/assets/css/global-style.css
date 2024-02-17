@@ -48,6 +48,17 @@
     font-size: 1rem !important;
 }
 
+.responsive-container {
+    width: 1000px;
+}
+
+@media (max-width: 768px) {
+    .responsive-container {
+        width: 100vw;
+    }
+}
+
+
 /*더잠실체*/
 @font-face {
     font-family: 'TheJamsil100';

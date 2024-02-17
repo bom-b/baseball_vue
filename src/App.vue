@@ -8,8 +8,9 @@
 </template>
 <script>
 import {mapState} from "vuex";
-import main_header from '@/components/header/main-header.vue';
-import single_header from '@/components/header/single-header.vue'
+import mainHeader from '@/components/header/main-header.vue';
+import singleHeader from '@/components/header/single-header.vue'
+import readyHeader from "@/components/header/ready-header.vue";
 
 export default {
   watch: {
@@ -20,9 +21,11 @@ export default {
     ...mapState(['headerType']),
     headerComponent() {
       if (this.headerType === "home") {
-        return main_header;
+        return mainHeader;
       } else if (this.headerType === "single") {
-        return single_header;
+        return singleHeader;
+      } else if (this.headerType === "ready") {
+        return readyHeader;
       }
 
       return null;

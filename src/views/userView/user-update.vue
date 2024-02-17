@@ -9,8 +9,8 @@
         <p class="TheJamsil300" style="color: gray">한글, 영어, 숫자(0-9), 특수문자(-)</p>
         <input v-model="nickname.inputBox" class="form-control">
         <p v-if="nickname.negative_res" class="mt-2" style="color: darkred; font-size: 0.8em;">{{
-            nickname.negative_res
-          }}</p>
+          nickname.negative_res
+        }}</p>
         <p v-if="nickname.positive_res" class="mt-2" style="color: darkgreen; font-size: 0.8em;">{{
             nickname.positive_res
           }}</p>

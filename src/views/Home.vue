@@ -11,7 +11,9 @@
         <router-link to="/singlePlay">
           <button class="btn-signature">혼자하기</button>
         </router-link>
-        <button class="btn-signature" @click="pleaseWait">같이하기</button>
+        <router-link to="/ready/waitingRoom">
+          <button class="btn-signature">같이하기</button>
+        </router-link>
       </div>
       <a class="mt-4" @click="pleaseWait">게임방법 알아보기</a>
     </div>

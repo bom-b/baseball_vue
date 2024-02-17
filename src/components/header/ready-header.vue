@@ -2,7 +2,14 @@
   <nav class="navbar navbar-expand" style="min-height: 60px;">
     <div class="container-fluid">
       <div id="logo-box">
-
+        <router-link to="/">
+          <!--          <button class="goHome-btn">그만하기</button>-->
+          <img id="baseball" class="mt-3" src="../../assets/img/icon/7ball_77x77.png" alt="" width="40">
+          <button class="bg-transparent">
+            <span class="TheJamsil400 redWine">온라인</span>
+            <span class="TheJamsil400">숫자야구</span>
+          </button>
+        </router-link>
       </div>
       <div id="user-info-box">
         <div v-if="jwtToken">
@@ -33,8 +40,10 @@ nav {
   text-align: center;
 }
 
-#ball {
-  width: 35px;
+.bg-transparent {
+  border: none;
+  font-size: 22px;
+  margin-left: 10px;
 }
 
 img {
@@ -58,6 +67,10 @@ img {
 @media (max-width: 768px) {
   nav {
     width: 100%;
+  }
+
+  .bg-transparent{
+    display: none;
   }
 }
 
