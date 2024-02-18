@@ -32,6 +32,7 @@ export default {
       const socket = new SockJS(`http://localhost/baseball/game?token=${token}`);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect({}, frame => {
+        console.log("채팅방 연결 성공!")
         this.stompClient.subscribe('/topic/messages', tick => {
           let message = JSON.parse(tick.body);
           this.messages.push({
@@ -56,8 +57,19 @@ export default {
   beforeDestroy() {
     if (this.stompClient) {
       this.stompClient.disconnect();
+      console.log("채팅방 연결 종료!")
     }
   },
+  beforeRouteLeave(to, from, next) {
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log("채팅방 연결 종료!")
+        next();
+      });
+    } else {
+      next();
+    }
+  }
 };
 </script>
 

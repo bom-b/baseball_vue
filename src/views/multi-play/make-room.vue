@@ -2,7 +2,7 @@
   <div>
     <div id="makeRoom" class="responsive-container" style="">
       <router-link to="/ready/waitingRoom">
-        <button id="submit-btn" class="btn-gray" @click="makeRoom">대기실 돌아가기</button>
+        <button id="submit-btn" class="btn-gray">대기실 돌아가기</button>
       </router-link>
     </div>
     <hr>
@@ -44,7 +44,8 @@
             </div>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; justify-content:flex-end; align-items: flex-end; padding: 20px 0px 30px 0px;">
+        <div
+            style="display: flex; flex-direction: column; justify-content:flex-end; align-items: flex-end; padding: 20px 0px 30px 0px;">
           <button id="submit-btn" class="btn-signature" @click.capture="makeRoom">생성하기</button>
         </div>
       </div>
@@ -65,18 +66,18 @@ export default {
   },
   mounted() {
     // 페이지 로딩 시 로그인 체크
-    if(!window.localStorage.getItem('jwtToken')){
-      this.$swal.fire("","로그인이 필요합니다.").then(() => {
+    if (!window.localStorage.getItem('jwtToken')) {
+      this.$swal.fire("", "로그인이 필요합니다.").then(() => {
         this.$router.push('/ready/waitingRoom');
       });
     }
   },
   watch: {
-    'room.name'(newValue){
-      if(newValue.length > 20) {
+    'room.name'(newValue) {
+      if (newValue.length > 20) {
         this.nameIsOk = false;
         this.negative_res = '방 이름이 너무 깁니다.'
-      } else if(newValue.length > 0 && newValue.length < 21) {
+      } else if (newValue.length > 0 && newValue.length < 21) {
         this.nameIsOk = true;
         this.negative_res = ''
       }
@@ -87,6 +88,35 @@ export default {
       this.room.time = time;
     },
     makeRoom() {
+
+      if (!this.nameIsOk) {
+        this.$swal.fire("", "유효한 방이름을 입력해주세요.");
+        return;
+      }
+
+      if (window.localStorage.getItem("mStatus") != null) { // 이미 만든 방이 있거나 게임중 상태라면
+        this.$swal.fire("", "유효하지 않은 접근입니다.");
+        return;
+      }
+
+      const data = {
+        name: this.room.name,
+        time: this.room.time
+      }
+
+      this.$axios.post("/room/makeRoom", data)
+          .then(response => {
+            const multiStatus = {
+              'roomId': response.data, // 응답으로부터 받은 생성된 방번호
+              'head': true, // 방장이면 true
+              'isStart': false, // 게임 시작했으면 true
+            }
+            // window.localStorage.setItem("mStatus", JSON.stringify(multiStatus));
+            this.$router.push("/ready/waitingRoom");
+          })
+          .catch(error => {
+
+          })
 
     }
   }
@@ -118,7 +148,7 @@ export default {
 .active {
   background-color: #dedede;
   color: #8a2b3e;
-  box-shadow: 0 0 0 0.2rem rgba(138, 43, 62, 0.25) ; /* #8a2b3e 색상의 네온사인 효과 */
+  box-shadow: 0 0 0 0.2rem rgba(138, 43, 62, 0.25); /* #8a2b3e 색상의 네온사인 효과 */
 }
 
 .btn-gray {

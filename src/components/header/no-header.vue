@@ -11,7 +11,7 @@
           </button>
         </router-link>
       </div>
-      <p>no~</p>
+      <p>testzone</p>
     </div>
   </nav>
 </template>
