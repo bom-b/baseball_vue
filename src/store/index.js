@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 // Create a new store instance.
 const store = createStore({
     state: {
-        headerType: "home",
+        headerType: "no",
     },
     mutations: {
         setHeaderType(state, headerType) {

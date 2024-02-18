@@ -11,6 +11,7 @@ import {mapState} from "vuex";
 import mainHeader from '@/components/header/main-header.vue';
 import singleHeader from '@/components/header/single-header.vue'
 import readyHeader from "@/components/header/ready-header.vue";
+import noHeader from "@/components/header/no-header.vue";
 
 export default {
   watch: {
@@ -26,6 +27,8 @@ export default {
         return singleHeader;
       } else if (this.headerType === "ready") {
         return readyHeader;
+      } else if (this.headerType === "no") {
+        return noHeader;
       }
 
       return null;

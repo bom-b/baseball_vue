@@ -33,7 +33,7 @@ const routes = [
         path: '/test',
         component: RouterView,
         children: testRouter,
-        meta: {headerType: "ready"}
+        meta: {headerType: "no"}
     },
 
     // 싱글플레이

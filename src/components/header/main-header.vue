@@ -74,7 +74,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     if (window.localStorage.getItem('jwtToken')) {
       this.jwtToken = window.localStorage.getItem('jwtToken');
       this.getUserInfo();
